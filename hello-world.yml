@@ -1,0 +1,14 @@
+---
+# This playbook prints a simple debug message
+- name: Echo Hello, Fred and Wilma
+  hosts: all
+
+  tasks:
+  - name: "playbook1 - testing input vars"
+    set_stats:
+      data:
+        pb_var1a: ""
+        pb_var1b: ""
+
+  - debug: msg="Hello,  and "
+
