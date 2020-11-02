@@ -1,0 +1,35 @@
+version: '3.5'
+
+volumes:
+  db_data: {}
+
+networks:
+  miq: #custom name requires docker-compose v3.5+
+    driver: bridge
+
+services:
+  #container 1/1
+  manageiq:
+    image: manageiq/manageiq:jansa-2
+    container_name: manageiq
+    hostname: manageiq
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    volumes:
+      - db_data:/var/lib/pgsql/data
+    networks:
+      - miq
+    ports:
+      - 443:443
+      - 3000
+    # command:
+    #   - '--foo=/path/to/file'
+    healthcheck:
+      test: ["CMD", "wget", "https://manageiq"]
+      interval: 1m30s
+      timeout: 5s
+      retries: 2
+      start_period: 3m
+    restart: always
+
